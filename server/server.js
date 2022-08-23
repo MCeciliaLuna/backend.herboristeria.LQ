@@ -35,7 +35,16 @@ app.delete('/eliminarproducto', (req,res) => {
 
 
 
-// mongoose.connect('')
+const connectDb = async() => {
+  try {
+    mongoose.connect('mongodb+srv://LaQuiaquenaHerboristeria:LaQuiaquenaHerboristeria@cluster0.5xlotiz.mongodb.net/?retryWrites=true&w=majority')
+    console.log('Db conectada')
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+connectDb()
 
 app.listen(port, () => {
   console.log('Back funcionando en puerto ' + port)
