@@ -1,10 +1,12 @@
 const express = require('express');
+const mongoose = require('mongoose');
 const app = express();
 const bodyParser = require('body-parser');
 
+
 const port = 8000
 
-app.get('/', (req,res) => {
+app.get('/get', (req,res) => {
   res.json({
     message: "GET funcionando"
   })
@@ -31,6 +33,9 @@ app.delete('/eliminarproducto', (req,res) => {
 })
 
 
+
+
+// mongoose.connect('')
 
 app.listen(port, () => {
   console.log('Back funcionando en puerto ' + port)
