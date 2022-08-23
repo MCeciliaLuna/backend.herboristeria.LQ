@@ -6,20 +6,54 @@ const bodyParser = require('body-parser');
 
 const port = 8000
 
+app.use(bodyParser.json())
+
 app.get('/get', (req,res) => {
   res.json({
     message: "GET funcionando"
   })
 })
+
+const Usuario = require('./modelos/usuario')
+
+
 app.post('/crearusuario', (req,res) => {
-  res.json({
-    message: "USUARIO CREADO correctamente"
-  })
+  const { nombre, contraseña} = req.body
+
+  try {
+    const crearUsuario = new Usuario({
+         nombre,
+         contraseña
+       })
+       crearUsuario.save()
+  
+      res.json({
+        message: `Usuario ${nombre}, contraseña ${contraseña} CREADO correctamente`
+      })
+      console.log({nombre, contraseña})
+    } catch (error) {
+    console.error(error)
+  }
 })
+
+const Producto = require('./modelos/productos')
 app.post('/crearproducto', (req,res) => {
-  res.json({
-    message: "PRODUCTO CREADO correctamente"
-  })
+  const { nombre, descripcion, precio} = req.body
+  try {
+    const crearProducto = new Producto({
+      nombre,
+      descripcion,
+      precio
+    })
+    crearProducto.save()
+    res.json({
+      nombre,
+      descripcion,
+      precio
+    })
+  } catch (error) {
+    console.error(error)
+  }
 })
 app.put('/modificarproducto', (req,res) => {
   res.json({
