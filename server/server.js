@@ -2,7 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const bodyParser = require('body-parser');
-// const { jwtValidator } = require('./server/middlewares/jwvalidator');
+const jwt = require('jsonwebtoken');
+const { jwtValidator } = require('../server/middlewares/jwvalidator');
 require('dotenv').config()
 
 const connectDb = async () => {
@@ -26,27 +27,27 @@ app.get('/get', (req,res) => {
   })
 })
 
-// app.login('/login', async(req,res) => {
-//   const { nombre, contraseña } = req.body;
-//   try {
-//     const usuario = await Usuario.findOne({ nombre, contraseña })
+app.post('/login', async(req,res) => {
+  const { nombre, contraseña } = req.body;
+  try {
+    const usuario = await Usuario.findOne({ nombre, contraseña })
 
-//     if (result) {
-//       const token = jwt.sign({ usuario }, secretKey)
-//       res.json({
-//         message: "Usuario logueado exitosamente",
-//         result,
-//         token
-//       }) 
-//     } else {
-//       res.json({
-//         message: "usuario o contraseña incorrecta"
-//       })
-//     }
-//   } catch (error) {
-//     console.error(error)
-//   }
-// })
+    if (usuario) {
+      const token = jwt.sign({ usuario }, contraseña)
+      res.json({
+        message: "Usuario logueado exitosamente",
+        usuario,
+        token
+      }) 
+    } else {
+      res.json({
+        message: "usuario o contraseña incorrecta"
+      })
+    }
+  } catch (error) {
+    console.error(error)
+  }
+})
 
 const Usuario = require('./modelos/usuario')
 app.post('/crearusuario', (req,res) => {
