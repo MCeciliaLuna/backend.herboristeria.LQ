@@ -2,18 +2,19 @@ const express = require('express');
 const mongoose = require('mongoose');
 const app = express();
 const bodyParser = require('body-parser');
+// const { jwtValidator } = require('./server/middlewares/jwvalidator');
+require('dotenv').config()
 
 const connectDb = async () => {
+  const database = process.env.DB
   try {
-   mongoose.connect('mongodb+srv://LaQuiaquenaHerboristeria:LaQuiaquenaHerboristeria@cluster0.5xlotiz.mongodb.net/?retryWrites=true&w=majority')
+   mongoose.connect(database)
    console.log('Db conectada')
  } catch (error) {
    console.error(error)
  }
 }
-
 connectDb()
-
 
 const port = 8000
 
@@ -25,9 +26,29 @@ app.get('/get', (req,res) => {
   })
 })
 
+// app.login('/login', async(req,res) => {
+//   const { nombre, contraseña } = req.body;
+//   try {
+//     const usuario = await Usuario.findOne({ nombre, contraseña })
+
+//     if (result) {
+//       const token = jwt.sign({ usuario }, secretKey)
+//       res.json({
+//         message: "Usuario logueado exitosamente",
+//         result,
+//         token
+//       }) 
+//     } else {
+//       res.json({
+//         message: "usuario o contraseña incorrecta"
+//       })
+//     }
+//   } catch (error) {
+//     console.error(error)
+//   }
+// })
+
 const Usuario = require('./modelos/usuario')
-
-
 app.post('/crearusuario', (req,res) => {
   const { nombre, contraseña} = req.body
 
@@ -108,8 +129,6 @@ app.delete('/eliminarproducto', async (req,res) => {
     console.error(error)
   }
 })
-
-
 
 app.listen(port, () => {
   console.log('Back funcionando en puerto ' + port)
