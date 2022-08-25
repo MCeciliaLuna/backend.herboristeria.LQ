@@ -3,6 +3,17 @@ const mongoose = require('mongoose');
 const app = express();
 const bodyParser = require('body-parser');
 
+const connectDb = async () => {
+  try {
+   mongoose.connect('mongodb+srv://LaQuiaquenaHerboristeria:LaQuiaquenaHerboristeria@cluster0.5xlotiz.mongodb.net/?retryWrites=true&w=majority')
+   console.log('Db conectada')
+ } catch (error) {
+   console.error(error)
+ }
+}
+
+connectDb()
+
 
 const port = 8000
 
@@ -36,6 +47,20 @@ app.post('/crearusuario', (req,res) => {
   }
 })
 
+app.delete('/eliminarusuario', async (req,res) => {
+  const { id } = req.body
+  try {
+    const usuarioEliminado = await Usuario.findOneAndDelete(id)
+    res.json({
+      message: `USUARIO ${usuarioEliminado.nombre} ELIMINADO correctamente`
+    })
+  } catch (error) {
+    console.error(error)
+  }
+})
+
+
+
 const Producto = require('./modelos/productos')
 app.post('/crearproducto', (req,res) => {
   const { nombre, descripcion, precio} = req.body
@@ -55,30 +80,36 @@ app.post('/crearproducto', (req,res) => {
     console.error(error)
   }
 })
-app.put('/modificarproducto', (req,res) => {
-  res.json({
-    message: "PRODUCTO MODIFICADO correctamente"
-  })
-})
-app.delete('/eliminarproducto', (req,res) => {
-  res.json({
-    message: "PRODUCTO ELIMINADO correctamente"
-  })
-})
 
-
-
-
-const connectDb = async() => {
+app.put('/modificarproducto', async (req,res) => {
+  const { id, nombre, caracteristicas, precio } = req.body
   try {
-    mongoose.connect('mongodb+srv://LaQuiaquenaHerboristeria:LaQuiaquenaHerboristeria@cluster0.5xlotiz.mongodb.net/?retryWrites=true&w=majority')
-    console.log('Db conectada')
+    const modificarProducto = await Producto.findByIdAndUpdate(id, {
+      nombre,
+      caracteristicas,
+      precio
+    })
+    res.json({
+      message: `PRODUCTO ${modificarProducto.nombre} modificado correctamente`
+    })
   } catch (error) {
     console.error(error)
   }
-}
+})
 
-connectDb()
+app.delete('/eliminarproducto', async (req,res) => {
+  const { id } = req.body
+  try {
+    const productoEliminado = await Producto.findOneAndDelete(id)
+    res.json({
+      message: `PRODUCTO ${productoEliminado.nombre} ELIMINADO correctamente`
+    })
+  } catch (error) {
+    console.error(error)
+  }
+})
+
+
 
 app.listen(port, () => {
   console.log('Back funcionando en puerto ' + port)
