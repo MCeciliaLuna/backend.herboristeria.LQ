@@ -3,7 +3,9 @@ const mongoose = require('mongoose');
 const app = express();
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
-const { jwtValidator } = require('../server/middlewares/jwvalidator');
+const bcrypt = require('bcrypt');
+const cors = require('cors');
+// const { jwtValidator } = require('../server/middlewares/jwvalidator');
 require('dotenv').config()
 
 const connectDb = async () => {
@@ -20,6 +22,7 @@ connectDb()
 const port = 8000
 
 app.use(bodyParser.json())
+app.use(cors());
 
 app.get('/get', (req,res) => {
   res.json({
@@ -51,12 +54,14 @@ app.post('/login', async(req,res) => {
 
 const Usuario = require('./modelos/usuario')
 app.post('/crearusuario', (req,res) => {
-  const { nombre, contraseña} = req.body
+  const { nombre, contraseña} = req.body;
+
+  const contraseñaEncriptada = bcrypt.hashSync(contraseña, 10);
 
   try {
     const crearUsuario = new Usuario({
          nombre,
-         contraseña
+         contraseña: contraseñaEncriptada
        })
        crearUsuario.save()
   
