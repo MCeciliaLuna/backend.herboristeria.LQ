@@ -5,7 +5,6 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
-// const { jwtValidator } = require('../server/middlewares/jwvalidator');
 require('dotenv').config()
 
 const connectDb = async () => {
@@ -32,11 +31,14 @@ app.get('/get', (req,res) => {
 
 app.post('/login', async(req,res) => {
   const { nombre, contraseña } = req.body;
-  try {
-    const usuario = await Usuario.findOne({ nombre, contraseña })
 
-    if (usuario) {
-      const token = jwt.sign({ usuario }, contraseña)
+  try {
+    const usuario = await Usuario.findOne({ nombre });
+
+      const token = jwt.sign({ nombre }, 'LaQuiaqueña');
+      const match = bcrypt.compareSync(contraseña, usuario.contraseña);
+
+      if(match){
       res.json({
         message: "Usuario logueado exitosamente",
         usuario,
@@ -109,11 +111,11 @@ app.post('/crearproducto', (req,res) => {
 })
 
 app.put('/modificarproducto', async (req,res) => {
-  const { id, nombre, caracteristicas, precio } = req.body
+  const { id, nombre, descripcion, precio } = req.body
   try {
     const modificarProducto = await Producto.findByIdAndUpdate(id, {
       nombre,
-      caracteristicas,
+      descripcion,
       precio
     })
     res.json({
