@@ -23,7 +23,7 @@ const port = 8000
 app.use(bodyParser.json())
 app.use(cors());
 
-app.get('/get', (req,res) => {
+app.get('/', (req,res) => {
   res.json({
     message: "GET funcionando"
   })
