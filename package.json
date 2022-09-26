@@ -14,7 +14,7 @@
   "main": "./server/server.js",
   "devDependencies": {},
     "scripts": {
-      "start": "node ./server/server.js"
+      "start": "node ./bin/www"
     },
   "repository": {
     "type": "git",
