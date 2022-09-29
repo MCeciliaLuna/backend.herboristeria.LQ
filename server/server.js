@@ -126,8 +126,8 @@ app.put('/modificarproducto', async (req,res) => {
   try {
     const modificarProducto = await Producto.findByIdAndUpdate(id, {
       nombre,
-      descripcion,
-      precio
+      descripcion, 
+      precio 
     })
     res.json({
       message: `PRODUCTO ${modificarProducto.nombre} modificado correctamente`
