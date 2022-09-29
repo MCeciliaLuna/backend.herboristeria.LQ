@@ -5,7 +5,8 @@ const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const cors = require('cors');
-require('dotenv').config()
+require('dotenv').config();
+const producto = require('./modelos/productos');
 
 const connectDb = async () => {
   const database = process.env.DB
@@ -33,7 +34,7 @@ app.post('/login', async(req,res) => {
   const { nombre, contraseña } = req.body;
 
   try {
-    const usuario = await Usuario.findOne({ nombre });
+    const usuario = await Usuario.findOne({ nombre, contraseña });
 
       const token = jwt.sign({ nombre }, 'LaQuiaqueña');
       const match = bcrypt.compareSync(contraseña, usuario.contraseña);
@@ -89,9 +90,13 @@ app.delete('/eliminarusuario', async (req,res) => {
 })
 
 
+app.get('/traerproductos', async(req,res) => {
+  const totalProductos = await producto.find()
+  res.send(totalProductos)
+}) 
 
 const Producto = require('./modelos/productos')
-app.post('/crearproducto', (req,res) => {
+app.post('/crearproducto', async(req,res) => {
   const { nombre, descripcion, precio} = req.body
   try {
     const crearProducto = new Producto({
@@ -99,16 +104,22 @@ app.post('/crearproducto', (req,res) => {
       descripcion,
       precio
     })
-    crearProducto.save()
-    res.json({
+    await crearProducto.save()
+    res.status(200).json({
       nombre,
       descripcion,
       precio
     })
+    res.status(200).json({
+      message:'Exitoso'
+    })
   } catch (error) {
-    console.error(error)
+    // console.error(error)
+    // res.json(error)
+    res.status(error.code || 500).json({message:error.message})
   }
 })
+
 
 app.put('/modificarproducto', async (req,res) => {
   const { id, nombre, descripcion, precio } = req.body
