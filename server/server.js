@@ -105,6 +105,7 @@ app.post('/crearproducto', async(req,res) => {
       precio
     })
     await crearProducto.save()
+    res.end(data)
     res.status(200).json({
       nombre,
       descripcion,
@@ -114,8 +115,6 @@ app.post('/crearproducto', async(req,res) => {
       message:'Exitoso'
     })
   } catch (error) {
-    // console.error(error)
-    // res.json(error)
     res.status(error.code || 500).json({message:error.message})
   }
 })
