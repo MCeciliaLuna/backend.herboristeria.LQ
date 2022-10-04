@@ -13,6 +13,10 @@ const producto = new Schema ({
   precio: {
     type: Number,
     required: [true, "El precio es necesario"]
+  },
+  image: {
+    public_id: String,
+    secure_url: String
   }
 })
 

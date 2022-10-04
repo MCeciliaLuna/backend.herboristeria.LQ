@@ -7,6 +7,10 @@ const bcrypt = require('bcrypt');
 const cors = require('cors');
 require('dotenv').config();
 const producto = require('./modelos/productos');
+const fileUpload = require('express-fileupload');
+const {uploadImage} = require('./middlewares/cloudinary');
+const cloudinary = require('cloudinary');
+
 
 const connectDb = async () => {
   const database = process.env.DB
@@ -23,6 +27,10 @@ const port = 8000
 
 app.use(bodyParser.json())
 app.use(cors());
+app.use(fileUpload({
+  useTempFiles : true,
+  tempFileDir : './uploads'
+}));
 
 app.get('/', (req,res) => {
   res.json({
@@ -97,23 +105,34 @@ app.get('/traerproductos', async(req,res) => {
 
 const Producto = require('./modelos/productos')
 app.post('/crearproducto', async(req,res) => {
-  const { nombre, descripcion, precio} = req.body
+
   try {
+    const { nombre, descripcion, precio} = req.body
+
     const crearProducto = new Producto({
       nombre,
       descripcion,
       precio
     })
+
+    if (req.files?.image) {
+      const result = await uploadImage(req.files.image.tempFilePath)
+      crearProducto.image = {
+        public_id : result.public_id,
+        secure_url : result.secure_url
+      }
+    }
+
     await crearProducto.save()
-    res.end(data)
+    // // res.end(data)
     res.status(200).json({
       nombre,
       descripcion,
-      precio
+      precio,
+      image
     })
-    res.status(200).json({
-      message:'Exitoso'
-    })
+    // res.status(200).json(crearProducto)
+    console.log(crearProducto)
   } catch (error) {
     res.status(error.code || 500).json({message:error.message})
   }
