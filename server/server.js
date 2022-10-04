@@ -9,6 +9,7 @@ require('dotenv').config();
 const producto = require('./modelos/productos');
 const fileUpload = require('express-fileupload');
 const {uploadImage} = require('./middlewares/cloudinary');
+const fs = require('fs-extra')
 
 const connectDb = async () => {
   const database = process.env.DB
@@ -106,28 +107,26 @@ app.post('/crearproducto', async(req,res) => {
 
   try {
     const { nombre, descripcion, precio} = req.body
-
     
-    if (req.files?.image) {
+    const crearProducto = new Producto({
+      nombre,
+      descripcion,
+      precio
+    }
+    )
+
+    if (req.files.image) {
       const result = await uploadImage(req.files.image.tempFilePath)
-      const crearProducto = new Producto({
-        nombre,
-        descripcion,
-        precio,
-        image: {
-        public_id: result.public_id,
+      crearProducto.image = {
+        public_id : result.public_id,
         secure_url: result.secure_url
       }
-    })
-  }
+      await fs.unlink(req.files.image.tempFilePath)
+    }
+
   await crearProducto.save()
   
-    // // res.end(data)
-    // res.status(200).json({
-    //   nombre,
-    //   descripcion,
-    //   precio
-    // })
+    // res.end(data)
     res.status(200).json(crearProducto)
   } catch (error) {
     res.status(error.code || 500).json({message:error.message})

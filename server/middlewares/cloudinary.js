@@ -13,11 +13,10 @@ cloudinary.config({
   secure: true
 });
 
-const uploadImage = async(filePath) => {
-  await cloudinary.v2.uploader.upload(filePath, {
+async function uploadImage (filePath) {
+  return await cloudinary.v2.uploader.upload(filePath, {
     folder: 'LaQuiaquenaHerboristeria'
   })
-  .then(result=>console.log(result))
 }
 
-module.exports = {uploadImage}
+module.exports = { uploadImage }
