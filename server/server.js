@@ -3,7 +3,7 @@ const mongoose = require('mongoose');
 const app = express();
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('bcrypt');
+// const bcrypt = require('bcrypt');
 const cors = require('cors');
 require('dotenv').config();
 const producto = require('./modelos/productos');
@@ -43,14 +43,13 @@ app.post('/login', async(req,res) => {
   try {
     const usuario = await Usuario.findOne({ nombre, contraseña });
 
-      const token = jwt.sign({ nombre }, 'LaQuiaqueña');
-      const match = bcrypt.compareSync(contraseña, usuario.contraseña);
+    // const match = bcrypt.compareSync(contraseña, usuario.contraseña);
+    const token = jwt.sign({ nombre }, 'LaQuiaqueña');
 
-      if(match){
+      if(usuario){
       res.json({
         message: "Usuario logueado exitosamente",
-        usuario,
-        token
+        token: token
       }) 
     } else {
       res.json({
@@ -66,12 +65,13 @@ const Usuario = require('./modelos/usuario')
 app.post('/crearusuario', (req,res) => {
   const { nombre, contraseña} = req.body;
 
-  const contraseñaEncriptada = bcrypt.hashSync(contraseña, 10);
+  // const contraseñaEncriptada = bcrypt.hashSync(contraseña, 10);
 
   try {
     const crearUsuario = new Usuario({
          nombre,
-         contraseña: contraseñaEncriptada
+         contraseña
+        //  :contraseñaEncriptada
        })
        crearUsuario.save()
   
@@ -126,7 +126,7 @@ app.post('/crearproducto', async(req,res) => {
 
   await crearProducto.save()
   
-    // res.end(data)
+    res.end(data)
     res.status(200).json(crearProducto)
   } catch (error) {
     res.status(error.code || 500).json({message:error.message})
