@@ -124,9 +124,9 @@ app.post('/crearproducto', async(req,res) => {
       await fs.unlink(req.files.image.tempFilePath)
     }
 
-  await crearProducto.save()
+  await crearProducto.save() 
   
-    res.end(data)
+    // res.end(data) 
     res.status(200).json(crearProducto)
   } catch (error) {
     res.status(error.code || 500).json({message:error.message})
@@ -150,13 +150,14 @@ app.put('/modificarproducto', async (req,res) => {
   }
 })
 
-app.delete('/eliminarproducto', async (req,res) => {
-  const { id } = req.body
+app.delete('/eliminarproducto/:_id', async (req,res) => {
+  const { _id } = req.params
   try {
-    const productoEliminado = await Producto.findOneAndDelete(id)
+    const productoEliminado = await Producto.findOneAndDelete(_id)
     res.json({
       message: `PRODUCTO ${productoEliminado.nombre} ELIMINADO correctamente`
     })
+    // res.end(data)
   } catch (error) {
     console.error(error)
   }
