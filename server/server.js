@@ -99,7 +99,7 @@ app.delete('/eliminarusuario', async (req,res) => {
 
 app.get('/traerproductos', async(req,res) => {
   const totalProductos = await producto.find()
-  res.send(totalProductos)
+  res.json(totalProductos)
 }) 
 
 const Producto = require('./modelos/productos')
