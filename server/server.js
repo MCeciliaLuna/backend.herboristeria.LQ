@@ -3,12 +3,12 @@ const mongoose = require('mongoose');
 const app = express();
 const bodyParser = require('body-parser');
 const jwt = require('jsonwebtoken');
-// const bcrypt = require('bcrypt');
 const cors = require('cors');
 require('dotenv').config();
 const producto = require('./modelos/productos');
 const fileUpload = require('express-fileupload');
-const {uploadImage} = require('./middlewares/cloudinary');
+const cloudinary = require('cloudinary');
+const {uploadImage, deleteImage} = require('./middlewares/cloudinary');
 const fs = require('fs-extra')
 
 const connectDb = async () => {
@@ -151,13 +151,17 @@ app.put('/modificarproducto', async (req,res) => {
 })
 
 app.delete('/eliminarproducto/:_id', async (req,res) => {
-  const { _id } = req.params
+  const {_id } = req.params
+  
+  const producto = await Producto.findById(_id)
+  const imgID = producto.image.public_id
+
   try {
-    const productoEliminado = await Producto.findOneAndDelete(_id)
+    await Producto.findByIdAndDelete(producto)
+    await cloudinary.v2.uploader.destroy(imgID)
     res.json({
-      message: `PRODUCTO ${productoEliminado.nombre} ELIMINADO correctamente`
+      message: `PRODUCTO ${producto.nombre} ELIMINADO correctamente`
     })
-    // res.end(data)
   } catch (error) {
     console.error(error)
   }
