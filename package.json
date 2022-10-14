@@ -18,6 +18,9 @@
   "scripts": {
     "start": "node ./server/server.js"
   },
+  "engines": {
+    "node": "16.x"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/MCeciliaLuna/laquiaquena-herboristeria-be.git"
