@@ -115,7 +115,7 @@ app.post('/crearproducto', async(req,res) => {
     }
     )
 
-    if (req.files.image){
+    if (req.files.image) {
       const result = await uploadImage(req.files.image.tempFilePath)
       crearProducto.image = {
         public_id : result.public_id,
