@@ -9,7 +9,8 @@ const producto = require('./modelos/productos');
 const fileUpload = require('express-fileupload');
 const cloudinary = require('cloudinary');
 const {uploadImage, deleteImage} = require('./middlewares/cloudinary');
-const fs = require('fs-extra')
+const fs = require('fs-extra');
+const bcrypt = require('bcrypt')
 
 const connectDb = async () => {
   const database = process.env.DB
@@ -41,12 +42,12 @@ app.post('/login', async(req,res) => {
   const { nombre, contraseña } = req.body;
 
   try {
-    const usuario = await Usuario.findOne({ nombre, contraseña });
+    const usuario = await Usuario.findOne({ nombre});
 
-    // const match = bcrypt.compareSync(contraseña, usuario.contraseña);
+    const match = bcrypt.compareSync(contraseña, usuario.contraseña);
     const token = jwt.sign({ nombre }, 'LaQuiaqueña');
 
-      if(usuario){
+      if(match){
       res.json({
         message: "Usuario logueado exitosamente",
         token: token
@@ -65,20 +66,18 @@ const Usuario = require('./modelos/usuario')
 app.post('/crearusuario', (req,res) => {
   const { nombre, contraseña} = req.body;
 
-  // const contraseñaEncriptada = bcrypt.hashSync(contraseña, 10);
+  const contraseñaEncriptada = bcrypt.hashSync(contraseña, 10);
 
   try {
     const crearUsuario = new Usuario({
          nombre,
-         contraseña
-        //  :contraseñaEncriptada
+         contraseña :contraseñaEncriptada
        })
        crearUsuario.save()
   
       res.json({
-        message: `Usuario ${nombre}, contraseña ${contraseña} CREADO correctamente`
+        message: `Usuario ${nombre}, contraseña ${contraseñaEncriptada} CREADO correctamente`
       })
-      console.log({nombre, contraseña})
     } catch (error) {
     console.error(error)
   }
@@ -106,12 +105,13 @@ const Producto = require('./modelos/productos')
 app.post('/crearproducto', async(req,res) => {
 
   try {
-    const { nombre, descripcion, precio} = req.body
+    const { nombre, descripcion, precio, image} = req.body
     
     const crearProducto = new Producto({
       nombre,
       descripcion,
-      precio
+      precio,
+      image
     }
     )
 
