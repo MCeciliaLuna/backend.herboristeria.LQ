@@ -105,13 +105,12 @@ const Producto = require('./modelos/productos')
 app.post('/crearproducto', async(req,res) => {
 
   try {
-    const { nombre, descripcion, precio, image} = req.body
+    const { nombre, descripcion, precio} = req.body
     
     const crearProducto = new Producto({
       nombre,
       descripcion,
-      precio,
-      image
+      precio
     }
     )
 
