@@ -4,6 +4,7 @@ const Schema = mongoose.Schema;
 const producto = new Schema ({
   nombre: {
     type: String,
+    uppercase: true,
     required: [true, "El nombre de usuario es necesario"]
   },
   descripcion: {
