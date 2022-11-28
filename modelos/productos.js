@@ -11,6 +11,14 @@ const producto = new Schema ({
     type: String,
     required: [true, "La descripción es necesaria"]
   },
+  precio: {
+    type: Number,
+    required: [true, "La descripción es necesaria"]
+  },
+  Categoria: {
+    type: String,
+    required: [true, "La descripción es necesaria"]
+  },
   image: {
     public_id: String,
     secure_url: String
