@@ -7,7 +7,7 @@ const producto = new Schema ({
     uppercase: true,
     required: [true, "El nombre de usuario es necesario"]
   },
-  Categoria: {
+  categoria: {
     type: String,
     required: [true, "La descripción es necesaria"]
   },

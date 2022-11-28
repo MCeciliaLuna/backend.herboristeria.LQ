@@ -11,7 +11,7 @@ const traerProductos = async(req,res) => {
 
 const crearProducto = async(req,res) => {
   try {
-    const { nombre,categoria, descripcion, precio} = req.body
+    const { nombre, categoria, descripcion, precio} = req.body
     
     const crearProducto = new Producto({
       nombre,
