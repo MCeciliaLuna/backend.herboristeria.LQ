@@ -3,13 +3,13 @@ const bcrypt = require('bcrypt')
 const Usuario = require('../modelos/usuario')
 
 const login = async(req,res) => {
-  const { nombre, contraseña } = req.body;
+  const { email, contraseña } = req.body;
 
   try {
-    const usuario = await Usuario.findOne({nombre});
+    const usuario = await Usuario.findOne({email});
 
     const match = bcrypt.compareSync(contraseña, usuario.contraseña);
-    const token = jwt.sign({ nombre }, 'LaQuiaqueña');
+    const token = jwt.sign({ email }, 'LaQuiaqueña');
 
       if(match){
       res.json({

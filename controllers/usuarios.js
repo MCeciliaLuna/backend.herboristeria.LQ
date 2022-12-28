@@ -2,14 +2,20 @@ const Usuario = require('../modelos/usuario')
 const bcrypt = require('bcrypt')
 
 const crearUsuario = async (req,res) => {
-  const { nombre, contraseña} = req.body;
+  const { nombre, apellido, direccion, telefono, drugstore, email, contraseña, role} = req.body;
 
   const contraseñaEncriptada = bcrypt.hashSync(contraseña, 10);
 
   try {
     const crearUsuario = new Usuario({
-         nombre,
-         contraseña :contraseñaEncriptada
+      nombre,
+      apellido,
+      direccion,
+      telefono,
+      drugstore,
+      email,
+      contraseña :contraseñaEncriptada,
+      role
        })
        crearUsuario.save()
   
@@ -21,16 +27,21 @@ const crearUsuario = async (req,res) => {
   }
 }
 
-// const eliminarUsuario = async (req,res) => {
-//   const { id } = req.body
-//   try {
-//     const usuarioEliminado = await Usuario.findByIdAndDelete(id)
-//     res.json({
-//       message: `USUARIO ${usuarioEliminado.nombre} ELIMINADO correctamente`
-//     })
-//   } catch (error) {
-//     console.error(error)
-//   }
-// }
+const traerUsuarios = async(req,res) => {
+  const totalUsuarios = await Usuario.find()
+  res.json(totalUsuarios)
+}
 
-module.exports = { crearUsuario }
+const eliminarUsuario = async (req,res) => {
+  const { _id } = req.params
+  try {
+    const usuarioEliminado = await Usuario.findByIdAndDelete(_id)
+    res.json({
+      message: `USUARIO ${usuarioEliminado} ELIMINADO correctamente`
+    })
+  } catch (error) {
+    console.error(error)
+  }
+}
+
+module.exports = { crearUsuario, traerUsuarios, eliminarUsuario }
