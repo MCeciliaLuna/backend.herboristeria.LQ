@@ -2,7 +2,7 @@ const Usuario = require('../modelos/usuario')
 const bcrypt = require('bcrypt')
 
 const crearUsuario = async (req,res) => {
-  const { nombre, apellido, direccion, telefono, drugstore, email, contraseña, role} = req.body;
+  const { nombre, apellido, direccion, telefono, email, contraseña, role} = req.body;
 
   const contraseñaEncriptada = bcrypt.hashSync(contraseña, 10);
 
@@ -12,7 +12,6 @@ const crearUsuario = async (req,res) => {
       apellido,
       direccion,
       telefono,
-      drugstore,
       email,
       contraseña :contraseñaEncriptada,
       role

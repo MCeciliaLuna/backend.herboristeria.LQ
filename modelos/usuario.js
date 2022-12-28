@@ -24,11 +24,6 @@ const usuario = new Schema ({
       trim: true,
       required: true,
     },
-    drugstore: {
-      type: String,
-      trim: true,
-      required: true,
-    },
     email: {
       type: String,
       trim: true,

@@ -23,11 +23,6 @@ const pedido = new Schema({
     trim: true,
     required: true
   },
-  drugstore:{
-    type: Number,
-    trim: true,
-    required: true
-  },
   entrega: {
     type: String,
     trim: true,
