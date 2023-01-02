@@ -13,7 +13,7 @@ const login = async(req,res) => {
 
       if(match){
       res.json({
-        message: "Usuario logueado exitosamente",
+        usuario,
         token: token
       }) 
     } else {
@@ -22,7 +22,7 @@ const login = async(req,res) => {
       })
     }
   } catch (error) {
-    console.error(error)
+    res.status(error.code || 500).json({ message: error.message });
   }
 }
 
