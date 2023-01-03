@@ -35,7 +35,7 @@ const eliminarPedido = async (req,res) => {
       message: `Pedido ${pedidoEliminado} ELIMINADO correctamente`
     })
   } catch (error) {
-    console.error(error)
+    res.status(error.code || 500).json({ message: error.message });
   }
 }
 

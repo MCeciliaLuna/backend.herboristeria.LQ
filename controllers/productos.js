@@ -53,7 +53,7 @@ const modificarProducto = async (req,res) => {
       message: `PRODUCTO ${modificarProducto.nombre} modificado correctamente`
     })
   } catch (error) {
-    console.error(error)
+    res.status(error.code || 500).json({ message: error.message });
   }
 }
 
@@ -70,7 +70,7 @@ const eliminarProducto = async (req,res) => {
       message: `PRODUCTO ${producto.nombre} ELIMINADO correctamente`
     })
   } catch (error) {
-    console.error(error)
+    res.status(error.code || 500).json({ message: error.message });
   }
 }
 

@@ -35,7 +35,7 @@ const eliminarUsuario = async (req,res) => {
       message: `USUARIO ${usuarioEliminado} ELIMINADO correctamente`
     })
   } catch (error) {
-    console.error(error)
+    res.status(error.code || 500).json({ message: error.message });
   }
 }
 
