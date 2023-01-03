@@ -3,7 +3,7 @@ const bcrypt = require('bcrypt')
 
 const crearUsuario = async (req,res) => {
   try {
-  const { nombre, apellido, direccion, telefono, email, contraseña} = req.body;
+  const { nombre, apellido, direccion, telefono, email, contraseña, role} = req.body;
   const contraseñaEncriptada = bcrypt.hashSync(contraseña, 10);
 
     const nuevoUsuario = new Usuario({
@@ -12,7 +12,8 @@ const crearUsuario = async (req,res) => {
       direccion,
       telefono,
       email,
-      contraseña: contraseñaEncriptada
+      contraseña: contraseñaEncriptada,
+      role
     })
        await nuevoUsuario.save()
        res.status(201).json({ message: "Usuario creado", nuevoUsuario });
