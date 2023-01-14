@@ -8,11 +8,11 @@ const pedido = new Schema({
     uppercase: true,
     required: true
   },
-  pedido:{
+    pedido:{
     type: String,
     trim: true,
     required: true
-  },
+},
   direccion:{
     type: String,
     trim: true,
@@ -32,8 +32,19 @@ const pedido = new Schema({
     type: Number,
     trim: true,
     required: true
-  }
-});
+  },
+
+  pago:{
+    type: String,
+    trim: true,
+    enum: ["NO PAGADO", "PAGADO"],
+    default: "NO PAGADO"
+  },
+},
+  {
+    timestamps: true
+  },
+);
 
 
 module.exports = mongoose.model('Pedido', pedido)
