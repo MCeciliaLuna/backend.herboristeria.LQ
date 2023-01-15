@@ -33,17 +33,18 @@ const pedido = new Schema({
     trim: true,
     required: true
   },
-
   pago:{
     type: String,
     trim: true,
     enum: ["NO PAGADO", "PAGADO"],
     default: "NO PAGADO"
   },
-},
-  {
-    timestamps: true
-  },
+  datetime:{
+    type: String,
+    trim: true,
+    required: true
+  }
+}
 );
 
 
