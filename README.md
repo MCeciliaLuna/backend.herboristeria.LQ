@@ -1,8 +1,7 @@
-
-## LA QUIAQUEÑA HERBORISTERÍA WEB 💻📲
+## LA QUIAQUEÑA HERBORISTERÍA DATABASE 💻📲
 # 🌿
 
-En este repositorio se encuentra alojado el código perteneciente a la **página web de La Quiaqueña Herboristería**, la cual es una **e-Commerce web** que permite *loguearse y hacer pedidos* a la empresa. También tiene una sección perteneciente a los *administradores, donde gestionan los productos, los usuarios y los pedidos que reciben*.
+En este repositorio se encuentra alojado el código perteneciente a la **base de datos de La Quiaqueña Herboristería Web**, la cual comprende una **e-Commerce web** que permite *loguearse y hacer pedidos* a la empresa. También tiene una sección perteneciente a los *administradores, donde gestionan los productos, los usuarios y los pedidos que reciben*. La database hace posible todo esto.
 
 
 ## ¡ALTO AHÍ! 🔴
@@ -16,21 +15,20 @@ Sé que hay *mucho por hacer, deshacer y rehacer,* es por eso que agradecería t
 
 ## Ahora sí: Instalación 📎
 
-La instalación de las dependencias de este proyecto comienza con
+Este repositorio corre, una sola vez, de forma local en el puerto 8000 con el comando
 
 ```bash
-  npm i
+  node ./server/server.js
 ```
-
-Si queremos correrlo en el puerto local,
+y continuamente con
 
 ```bash
-  npm start
+  nodemon ./server/server.js
 ```
     
 ## Deploy 🌐
 
-Este proyecto se encuentra **deployado en [NETLIFY](https://laquiaquenaherboristeria.netlify.app/)** y su base de datos **también está deployada**, por lo cual no necesitás correr el BE en un puerto local.
+EL Front del proyecto se encuentra **deployado en [NETLIFY](https://laquiaquenaherboristeria.netlify.app/)** y la base de datos **también está deployada** en **RENDER**.
 
 
 ## Autora 🎨
