@@ -35,18 +35,16 @@ telefono:{
 entrega: {
   type: String,
   trim: true,
-  enum: ["RETIRO DEL LOCAL", "ENVÍO"],
+  enum: ["RETIRO DEL LOCAL", "ENVIO"],
     default: "RETIRO DEL LOCAL"
 },
   direccion:{
     type: String,
     trim: true,
-    required: true
   },
   aclaracion:{
     type: String,
     trim: true,
-    required: true
   },
   pago:{
     type: String,
