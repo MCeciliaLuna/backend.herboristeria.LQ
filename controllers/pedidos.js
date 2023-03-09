@@ -2,17 +2,28 @@ const Pedido = require('../modelos/pedidos')
 
 const crearPedido = async(req,res) => {
   try {
-    const { nombre, pedido, direccion, telefono, entrega, precio, pago, datetime} = req.body
-    
-    const crearPedido = new Pedido({
+    const {  apellido,
       nombre,
+      datetime,
       pedido,
-      direccion,
+      precio,
       telefono,
       entrega,
+      direccion,
+      aclaracion,
+      pago} = req.body
+    
+    const crearPedido = new Pedido({
+      apellido,
+      nombre,
+      datetime,
+      pedido,
       precio,
-      pago,
-      datetime
+      telefono,
+      entrega,
+      direccion,
+      aclaracion,
+      pago
     }
     )
 
