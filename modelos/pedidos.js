@@ -34,7 +34,9 @@ telefono:{
 },
 entrega: {
   type: String,
-  trim: true
+  trim: true,
+  enum: ["RETIRO DEL LOCAL", "ENVIO"],
+    default: "RETIRO DEL LOCAL"
 },
   direccion:{
     type: String,
