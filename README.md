@@ -25,6 +25,20 @@ y continuamente con
 ```bash
   nodemon ./server/server.js
 ```
+
+## Dependencias 🚀
+Los paquetes que utilizamos para esta página son
+[Express](https://www.npmjs.com/package/jspdf)
+• [Mongoose](https://mongoosejs.com/)
+• [Nodemon](https://nodemon.io/)
+• [Json Web Token](https://jwt.io/)
+• [Bcrypt](https://www.npmjs.com/package/bcrypt)
+• [Cloudinary](https://cloudinary.com/documentation)
+• [Dotenv](https://www.npmjs.com/package/dotenv)
+• [Express File Upload](https://www.npmjs.com/package/express-fileupload)
+• [Fs Extra](https://www.npmjs.com/package/fs-extra)
+• [Body Parser](https://www.npmjs.com/package/body-parser)
+• [Cors](https://www.npmjs.com/package/cors)
     
 ## Deploy 🌐
 
