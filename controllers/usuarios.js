@@ -8,8 +8,7 @@ const crearUsuario = async (req,res) => {
 
     const nuevoUsuario = new Usuario({
       email,
-      contraseña: contraseñaEncriptada,git
-      role
+      contraseña: contraseñaEncriptada
     })
        await nuevoUsuario.save()
        res.status(201).json({ message: "Usuario creado", nuevoUsuario });

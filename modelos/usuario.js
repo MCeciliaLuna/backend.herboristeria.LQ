@@ -15,7 +15,6 @@ const usuario = new Schema ({
   role: {
     type: String,
     required: true,
-    enum: ["USER", "ADMIN"],
     default: "ADMIN",
   },
   }
